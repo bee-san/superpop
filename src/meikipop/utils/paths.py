@@ -4,7 +4,7 @@ from platformdirs import PlatformDirs
 
 
 class MeikiPaths:
-    """Centralized path resolution for meikipop."""
+    """Centralized path resolution for superpop."""
     
     _instance = None
     
@@ -12,7 +12,7 @@ class MeikiPaths:
         if cls._instance is None:
             # Create the platformdirs instance as a composited object
             cls._instance = object.__new__(cls)
-            cls._instance._platform_dirs = PlatformDirs("meikipop", appauthor=False, ensure_exists=True)
+            cls._instance._platform_dirs = PlatformDirs("superpop", appauthor=False, ensure_exists=True)
         return cls._instance
 
     @property
@@ -34,6 +34,11 @@ class MeikiPaths:
     def dictionary_path(self):
         """Location of dictionary.pkl"""
         return os.path.join(self.data_dir, 'dictionary.pkl')
+
+    @property
+    def supermemo_qna_path(self):
+        """Location of the SuperMemo Q&A export file."""
+        return os.path.join(self.data_dir, 'supermemo_qa.txt')
     
     @property
     def cache_dir(self):

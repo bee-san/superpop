@@ -8,8 +8,8 @@ from meikipop.utils.paths import paths
 
 logger = logging.getLogger(__name__)
 
-APP_NAME = "meikipop"
-APP_VERSION = "2.0.3"
+APP_NAME = "superpop"
+APP_VERSION = "2.1.0"
 MAX_DICT_ENTRIES = 10
 IS_LINUX = sys.platform.startswith('linux')
 IS_WINDOWS = sys.platform.startswith('win')
@@ -38,7 +38,9 @@ class Config:
             'auto_scan_mode_lookups_without_hotkey': True,
             'auto_scan_interval_seconds': 0.5,
             'auto_scan_on_mouse_move': True,
-            'magpie_compatibility': True
+            'magpie_compatibility': True,
+            'supermemo_export_path': '',
+            'supermemo_copy_to_clipboard': True
         },
         'Theme': {
             'theme_name': 'Nazeka',

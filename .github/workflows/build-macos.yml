@@ -38,17 +38,17 @@ jobs:
         run: |
           rm -rf dist/dmg-root
           mkdir -p dist/dmg-root
-          cp -R dist/meikipop.app dist/dmg-root/
+          cp -R dist/superpop.app dist/dmg-root/
           ln -s /Applications dist/dmg-root/Applications
           hdiutil create \
-            -volname "meikipop" \
+            -volname "superpop" \
             -srcfolder dist/dmg-root \
             -ov \
             -format UDZO \
-            dist/meikipop.macos.${{ matrix.arch }}.dmg
+            dist/superpop.macos.${{ matrix.arch }}.dmg
 
       - name: upload macos artifact
         uses: actions/upload-artifact@v4
         with:
-          name: meikipop-macos-${{ matrix.arch }}
-          path: dist/meikipop.macos.${{ matrix.arch }}.dmg
+          name: superpop-macos-${{ matrix.arch }}
+          path: dist/superpop.macos.${{ matrix.arch }}.dmg

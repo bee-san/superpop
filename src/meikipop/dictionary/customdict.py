@@ -64,7 +64,7 @@ class Dictionary:
                 return self.load_dictionary(file_path)  # retry once after download
             logger.error(
                 "Dictionary could not be downloaded. "
-                "You can build it manually by running 'meikipop build-dict'."
+                "You can build it manually by running 'superpop build-dict'."
             )
             return False
         except Exception as e:

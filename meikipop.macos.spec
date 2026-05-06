@@ -58,7 +58,7 @@ exe = EXE(
     a.scripts,
     [],
     exclude_binaries=True,
-    name='meikipop',
+    name='superpop',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
@@ -80,14 +80,14 @@ coll = COLLECT(
     strip=False,
     upx=True,
     upx_exclude=[],
-    name='meikipop',
+    name='superpop',
 )
 
 app = BUNDLE(
     coll,
-    name='meikipop.app',
+    name='superpop.app',
     icon='src/meikipop/resources/icon.ico',
-    bundle_identifier='io.github.rtr46.meikipop',
+    bundle_identifier='io.github.beesan.superpop',
     version=BUILD_VERSION,
     info_plist={
         'CFBundleVersion': BUILD_VERSION,

@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <component type="desktop-application">
-  <id>com.github.rtr46.meikipop</id>
+  <id>com.github.beesan.superpop</id>
 
-  <name>meikipop</name>
-  <summary>Instantly look up Japanese words anywhere on your screen</summary>
-  <developer id="com.github.rtr46">
+  <name>superpop</name>
+  <summary>Instantly look up Japanese words anywhere on your screen and mine them to SuperMemo</summary>
+  <developer id="com.github.beesan">
     <name>
-        rtr46
+        bee-san
     </name>
   </developer>
-  <url type="homepage">https://github.com/rtr46/meikipop</url>
+  <url type="homepage">https://github.com/bee-san/superpop</url>
   <content_rating type="oars-1.1" />
 
   <metadata_license>CC0-1.0</metadata_license>
@@ -17,11 +17,11 @@
 
   <description>
     <p>
-      Instantly look up japanese words anywhere on your screen. Meikipop uses optical character recognition (ocr) to read text from websites, games, scanned manga, or even hard-coded video subtitles, giving you effortless dictionary lookups with the press of a key (or even without)!
+      Instantly look up japanese words anywhere on your screen. Superpop uses optical character recognition (ocr) to read text from websites, games, scanned manga, or even hard-coded video subtitles, then lets you append the current lookup to a SuperMemo Q&amp;A import file.
     </p>
   </description>
 
-  <launchable type="desktop-id">com.github.rtr46.meikipop.desktop</launchable>
+  <launchable type="desktop-id">com.github.beesan.superpop.desktop</launchable>
   <screenshots>
     <screenshot type="default">
       <image>

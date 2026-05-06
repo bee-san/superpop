@@ -29,7 +29,7 @@ class LinuxX11KeyboardController:
             self._setup_keycodes()
         except (XError, Exception) as e:
             logger.critical("Could not connect to X server. Is DISPLAY environment variable set? Error: %s", e)
-            logger.critical("Meikipop cannot run without a graphical session.")
+            logger.critical("superpop cannot run without a graphical session.")
             sys.exit(1)
 
     def _setup_keycodes(self):

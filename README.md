@@ -1,165 +1,178 @@
-# meikipop - universal japanese ocr popup dictionary
+# superpop
 
-instantly look up japanese words anywhere on your screen. meikipop uses optical character recognition (ocr) to read text from websites, games, scanned manga, or even hard-coded video subtitles, giving you effortless dictionary lookups with the press of a key (or even without)!
+the absurdly juiced japanese ocr popup dictionary with SuperMemo mining sauce.
+
+superpop is a fork of meikipop that looks at your screen, finds japanese text with ocr, pops a dictionary result under your cursor, and now lets you slam the current lookup straight into a SuperMemo Q&A import file. it is desktop yomichan energy, visual novel hover sorcery, manga panel extraction, subtitle sniping, and spaced-repetition grindset plumbing in one extremely unserious trench coat.
 
 https://github.com/user-attachments/assets/a1834197-3059-438c-a2dc-716e8ec9078f
 
+## why this exists
 
+because browser-only popup dictionaries are not enough. because games do not politely expose text. because manga images refuse to become selectable. because hard-coded subtitles are smug. because sometimes you hover a word, understand it for 0.8 seconds, and then your brain throws it into the ocean.
 
-## features
+superpop does the funny pipeline:
 
-*   **works everywhere:** if you can see it on your screen, you can look it up. no more limitations of browser extensions, hooks or application-specific tools.
-*   **ocr-powered:** reads japanese text directly from images, making it perfect for games, comics, and videos.
-*   **blazingly fast:** the dictionary is pre-processed into a highly optimized format for instant lookups. the ui is designed to be lightweight and responsive.
-*   **simple & intuitive:** just point your mouse and press a hotkey. that's it.
-*   **highly customizable:** change the hotkey, theme, colors, and layout to create your perfect reading experience.
-*   **region or fullscreen:** scan your entire screen or select a specific region (like a game window or manga page) to improve performance.
-*   **pluggable ocr backend:** lets you choose whatever ocr suits you best. whether you want the highest accuracy remote ocr, that runs great even on low-end hardware or you want blazingly fast and private local ocr.
+1. look at screen
+2. ocr the japanese
+3. dictionary go pop
+4. click tray action
+5. SuperMemo Q&A card appears in a UTF-8 text file
+6. import that file into SuperMemo and pretend this was a disciplined study workflow all along
 
-## philosophy & limitations
+## feature smoothie
 
-meikipop is designed to do one thing and do it exceptionally well: provide fast, frictionless, on-screen dictionary lookups.
+* **screen-wide japanese lookup:** websites, games, comics, videos, scans, cursed launchers, whatever. if pixels exist, superpop starts negotiating with them.
+* **local and remote ocr backends:** meikiocr, Google Lens, Chrome Screen AI, owocr, and custom providers if you want to bolt on your own machine-vision contraption.
+* **fast popup dictionary:** preprocessed dictionary data, deconjugation, frequency sorting, kanji side data, compact display, configurable colors, and that lovely little hover-card dopamine.
+* **SuperMemo Q&A export:** tray action appends the current lookup as `Q:` / `A:` text, with HTML line breaks and UTF-8 japanese intact.
+* **clipboard mining:** optionally copies the newest generated SuperMemo card so SuperMemo.com paste-import gobbles it immediately.
+* **region or full screen scanning:** scan exactly the window or region you care about instead of feeding the entire desktop into the pixel furnace.
+* **auto scan mode:** hover and receive knowledge pellets without repeatedly mashing the hotkey.
+* **settings panel:** themes, fonts, popup behavior, ocr backend selection, kanji detail toggles, and SuperMemo export path controls.
+* **pyproject installable:** run it as `superpop`, keep the old `meikipop` command around for compatibility, enjoy the fork name without losing muscle memory.
 
-it is heavily inspired by the philosophy of [Nazeka](https://github.com/wareya/nazeka), a fantastic browser-based popup dictionary, and aims to bring that seamless experience to the entire desktop. it also draws inspiration from the ocr architecture of [owocr](https://github.com/AuroraWright/owocr/tree/master/owocr).
+## SuperMemo support
 
-to maintain this focus, there are a few things meikipop is **not**:
+superpop exports the current popup lookup to SuperMemo's simple Q&A text format:
 
-*   **it is not an srs-mining tool.** meikipop does not include functionality to automatically create flashcards for programs like anki.
-*   **it is not a multi-dictionary tool.** while meikipops lets you import yomitan dictionaries, it is designed to run best with a single, semi-custom jmdict+kanjidic dictionary. 
-
-## installation
-
-there are a few different ways to install and run meikipop. note that when meikipop is started for the first time, a dictionary and ocr models may be downloaded.
-
-### easiest: prepackaged binaries
-
-just download, unpack and start the executable binary. no python installation required:
-* https://github.com/rtr46/meikipop/releases/latest
-
-### recommended: install via pypi
-
-if you already have python 3.10+ installed, this is the most flexible option that lets you run directly from source, enables you to edit the program and lets you add your own custom ocr providers. 
-
-```bash
-#... activate your environment if any
-pip install --upgrade meikipop
-meikipop  # run the application
+```text
+Q: 日本語 [にほんご]
+A: <b>日本語</b> [にほんご]<br>1. Japanese language<br><small>mined by superpop for SuperMemo Q&A import</small>
 ```
 
-### for development: editable install
+the export file defaults to your platform data directory as `supermemo_qa.txt`:
 
-if you are planning to modify, fork or contribute to meikipop, it is best to checkout this repo and create an editable install
+* windows: `%LOCALAPPDATA%\superpop\supermemo_qa.txt`
+* linux: `~/.local/share/superpop/supermemo_qa.txt`
+* macos: `~/Library/Application Support/superpop/supermemo_qa.txt`
+
+how to mine:
+
+1. run `superpop`
+2. hover japanese text until the popup has the entry you want
+3. right-click the tray icon
+4. click **Add last lookup to SuperMemo**
+5. import the resulting `supermemo_qa.txt` through SuperMemo's Q&A text import, or paste the copied card into SuperMemo.com import with separators configured for your course
+
+the settings dialog includes:
+
+* **Q&A Export Path:** choose the text file superpop appends to
+* **Copy Card to Clipboard:** copy the newest generated card after export
+
+SuperMemo for Windows supports importing Q&A text files with `Q:` and `A:` prefixes, UTF-8 text, and HTML tags inside question or answer content. SuperMemo.com can also import pasted question-answer material through its editor import flow when you choose the right separators. that means superpop does not need a brittle local automation bridge. it produces the boring format SuperMemo already eats.
+
+## install
+
+### from source, because you are already here
 
 ```bash
-#... activate your environment if any
-git clone https://github.com/rtr46/meikipop.git
-cd meikipop
+git clone https://github.com/bee-san/superpop.git
+cd superpop
 pip install -e .
-meikipop  # run the application
+superpop
 ```
 
-### platform support
+### compatibility command
 
-* **windows, linux (x11)** - these are the primary supported platforms
-* **macos** - supported thanks to community contributions
-* **linux (wayland)** - it can work in principle thanks to community contributions, but may require additional trouble shooting
+```bash
+meikipop
+```
 
-see for platform specific setup details:
-<details>
-<summary>macos</summary>
+yes, the old command still exists. no, the branding committee was not consulted.
 
-* go to **System Preferences** > **Security & Privacy** > **Privacy**
-* add/enable your terminal app in **Input Monitoring**, **Screen Recording** and **Accessibility**
+### dictionary setup
 
-note that there may be problems when using python 3.14. use one of [these workarounds](https://github.com/rtr46/meikipop/issues/43) if necessary.
-</details>
+on first run, superpop downloads the upstream meikipop dictionary asset if you do not already have one. you can also build it yourself:
 
-<details>
-<summary>wayland (alpha)</summary>
-
-it is possible to run meikipop on wayland in principle, but depending on your specific setup you may need to take additional steps like installing additional dependencies, fixing some of the wayland specific code or changing some of your setup. since the wayland eco system is terribly fragmented and deliberately prevents apps like meikipop from working natively, don't expect any support, but feel free to open an issue regardless.
-
-here are some tips and recommendations:
-* consider switching to x11
-* the easiest and most compatible way is trying to run the flatpak distribution of meikipop first, before trying any of the other tips 
-* if the flatpak does not work for you, install via pypi or create an editable install and avoid the linux prebuilt, which only got tested on x11
-* make sure you have xwayland working
-* you may need to install additional python dependencies, depending on your system like `pip install pygobject`
-* you may need to install additional os dependencies, depending on your distribution like:
-  * fedora: `sudo dnf install libxcb xcb-util xcb-util-cursor libxkbcommon-x11 libxkbcommon xcb-util-wm xcb-util-keysyms pipewire-gstreamer`
-  * ubuntu: `sudo apt install cmake libcairo2-dev libgirepository-2.0-dev libgstreamer1.0-dev gstreamer1.0-pipewire libxcb-xkb-dev libxcb-cursor-dev libxcb-xinerama0 libxkbcommon-x11-0 libxcb-cursor0 libxcb-icccm4 libxcb-keysyms1-dev libxcb-shape0`
-* if meikipop is running, but doesn't show any popups, make sure to test lookups on a windowed xwayland application like steam
-* ask your favorite llm for help
-</details>
+```bash
+superpop build-dict
+```
 
 ## how to use
 
-1.  run the application (`meikipop`).
-2.  the first time you run the app in `region` mode, you will be prompted to select an area of your screen to scan.
-3.  move your mouse over any japanese text on your screen.
-4.  a popup with dictionary entries will appear.
-5.  **right-click the system tray icon** to open the settings, reselect the scan region, change the ocr provider or quit the application.
+1. run `superpop`
+2. select a scan region if prompted
+3. hover japanese text
+4. read the popup
+5. mine the good stuff with **Add last lookup to SuperMemo**
+6. keep reading before the setup impulse convinces you to reorganize your deck tags for three hours
 
 ## configuration
 
-you can fully customize meikipop's behavior and appearance. right-click the tray icon and choose "settings" to open the configuration gui.
+right-click the tray icon and open **Settings**.
 
-changes are saved to a platform-specific user data directory which contains `config.ini` and `dictionary.pkl`:
-- windows: `%LOCALAPPDATA%\meikipop\`
-- linux: `~/.config/meikipop/`
-- macos: `~/Library/Application Support/meikipop/`
+the interesting knobs:
 
-## using alternative ocr backends...
+* **OCR Provider:** swap between local speed, remote accuracy, and whatever custom backend you wired in at 2 a.m.
+* **Max Lookup Length:** cap the text chunk sent into dictionary lookup
+* **Auto Scan Mode:** continuously ocr the region so hover latency feels less like soup
+* **Popup Content:** choose glosses, deconjugation, part of speech, frequency, kanji entries, examples, and components
+* **Popup Appearance:** tune the study rectangle until it stops offending your eyes
+* **SuperMemo:** set the Q&A file and clipboard behavior
 
-meikipop's architecture allows you to choose whatever ocr suits your use case best:
-- meikiocr (default/local): possibly the fastest local ocr worth using on cpu and can run even faster on nvidia gpus. primarily designed for video games with horizontal text. poor accuracy for vertical text.
-- google lens (remote): high accuracy, but requires an internet connection and has higher latency then the local options.
-- chrome screen ai (local): alternative local ocr worth checking out if meikiocr does not fit your use case. requires additional setup ([instructions](https://github.com/rtr46/meikipop/releases/tag/v1.10.0))
-- owocr: owocr lets you choose from even more ocr backends (see below)
-- custom ocr provider: if you are running from source it is very simple to integrate any ocr provider on your own (see below) 
+config and data live under `superpop`, not `meikipop`, because this fork put on sunglasses and legally became a new thing.
 
-### ...via owocr provider
+## ocr backend buffet
 
-owocr lets you run any relevant ocr engine and lets meikipop use it. just run a local [owocr](https://github.com/AuroraWright/owocr/tree/master/owocr) instance and select the owocr ocr provider from meikipop's system tray menu.
+* **meikiocr:** default local backend. fast, private, great for horizontal game text.
+* **Google Lens:** remote, higher accuracy, internet required, latency tax included.
+* **Chrome Screen AI:** local alternative if you have the setup in place.
+* **owocr:** bridge to owocr's backend buffet.
+* **custom provider:** copy the dummy provider and make your own weird ocr engine speak superpop's paragraph/word format.
 
-make sure you:
-
-* use owocr 1.15.0 or newer
-* enable reading from and writing to websockets
-* choose the json output format
-* and use an ocr backend that supports coordinates (most do)
-    ```bash
-    pip install -U "owocr>=1.15"
-    owocr -r websocket -w websocket -of json -e glens # replace glens with your favorite owocr backend
-    ```
-
-### ...via custom ocr provider
-
-you can develop your own ocr provider. to get started, you can copy the `dummy` provider and use it as a template.
-
-for a complete guide, see: [how to create a custom ocr provider](docs/CUSTOM_OCR_PROVIDER.md)
-
-## building your own dictionary (optional)
-
-in case you want to update your dictionary you can simply run:
+owocr example:
 
 ```bash
-meikipop build-dict
+pip install -U "owocr>=1.15"
+owocr -r websocket -w websocket -of json -e glens
 ```
 
-if you want to import a yomitan dictionary that is possible as well. you can import multiple yomitan dictionaries at once, but be aware that this will overwrite your default dictionary:
+then pick the owocr provider from the tray menu.
+
+custom provider docs still live at [docs/CUSTOM_OCR_PROVIDER.md](docs/CUSTOM_OCR_PROVIDER.md). it says meikipop in places because this fork is moving fast and the documentation intern is a hallucinated spreadsheet.
+
+## import yomitan dictionaries
 
 ```bash
-# try to keep as much of the dictionary's original formatting
-meikipop import-yomitan-dict-html my_yomitan_dict.zip
-# or create a compact, text only dictionary
-meikipop import-yomitan-dict-text my_yomitan_dict.zip
-# or import multiple dictionaries at once
-meikipop import-yomitan-dict-text dict1.zip dict2.zip
+superpop import-yomitan-dict-html my_yomitan_dict.zip
+superpop import-yomitan-dict-text my_yomitan_dict.zip
+superpop import-yomitan-dict-text dict1.zip dict2.zip
 ```
+
+html mode tries to keep formatting. text mode strips it down into lean little definition bricks.
+
+## platform vibes
+
+* **windows:** mainline happy path
+* **linux x11:** also mainline
+* **macos:** supported via community work and permission prompts
+* **linux wayland:** technically possible, emotionally seasonal
+
+macos needs screen recording, accessibility, and input monitoring permissions for the terminal or bundled app.
+
+wayland tips:
+
+* try the flatpak first
+* make sure xwayland works
+* install missing distro bits if screenshots or popups vanish
+* test on a windowed xwayland app
+* consider x11 when reality becomes expensive
+
+## development
+
+```bash
+pip install -e .
+python -m compileall src
+```
+
+the package is still `meikipop` internally so the fork stays small and the import graph does not get launched into the sun. the distribution and user-facing command are `superpop`.
+
+## slop manifesto
+
+superpop is not a lifestyle brand, except when it is. it is not a productivity methodology, except when a tray click becomes a flashcard and you feel like a cyber-scholar. it will not learn japanese for you, but it will reduce the gap between "what is that word" and "this word has been sentenced to SuperMemo prison" to a very satisfying click.
+
+read pixels. pop definitions. mine cards. repeat until the dictionary starts looking less like a wall and more like a buffet.
 
 ## license
 
-meikipop is licensed under the GNU General Public License v3.0. see the `LICENSE` file for the full license text.
-
-
+GPL-3.0. see [LICENSE](LICENSE). upstream meikipop by rtr46 did the hard foundation work; superpop adds the flashy fork branding and SuperMemo export plumbing.

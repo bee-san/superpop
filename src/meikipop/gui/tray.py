@@ -1,5 +1,6 @@
 # meikipop/gui/tray.py
 import os
+import logging
 
 from PyQt6.QtGui import QIcon, QAction, QActionGroup
 from PyQt6.QtWidgets import QSystemTrayIcon, QMenu, QApplication
@@ -7,7 +8,10 @@ from PyQt6.QtWidgets import QSystemTrayIcon, QMenu, QApplication
 from meikipop.config.config import APP_NAME, config, IS_WINDOWS
 from meikipop.gui.settings_dialog import SettingsDialog
 from meikipop.ocr.ocr import OcrProcessor
+from meikipop.srs.supermemo import SuperMemoExporter, SuperMemoExportError
 from meikipop.utils.paths import paths
+
+logger = logging.getLogger(__name__)
 
 
 class TrayIcon(QSystemTrayIcon):
@@ -96,7 +100,11 @@ class TrayIcon(QSystemTrayIcon):
 
         self.menu.addSeparator()
 
-        self.enable_action = self.menu.addAction("Pause meikipop")
+        self.menu.addAction("Add last lookup to SuperMemo").triggered.connect(self.add_last_lookup_to_supermemo)
+
+        self.menu.addSeparator()
+
+        self.enable_action = self.menu.addAction("Pause superpop")
         self.enable_action.setCheckable(True)
         self.enable_action.triggered.connect(self.toggle_enabled_state)
         self.activated.connect(self.on_tray_activated)
@@ -188,6 +196,24 @@ class TrayIcon(QSystemTrayIcon):
     def show_settings(self):
         settings_dialog = SettingsDialog(self.ocr_processor, self.popup_window, self.input_loop, self.lookup, self)
         settings_dialog.exec()
+
+    def add_last_lookup_to_supermemo(self):
+        try:
+            exporter = SuperMemoExporter()
+            card = exporter.append_from_entries(self.popup_window.get_latest_data())
+            if config.supermemo_copy_to_clipboard:
+                QApplication.clipboard().setText(card.text)
+            self.showMessage(
+                APP_NAME,
+                f"SuperMemo Q&A card appended to {exporter.export_path}",
+                QSystemTrayIcon.MessageIcon.Information,
+                3000,
+            )
+        except SuperMemoExportError as e:
+            self.showMessage(APP_NAME, str(e), QSystemTrayIcon.MessageIcon.Warning, 3000)
+        except Exception as e:
+            logger.exception("Failed to append SuperMemo Q&A card.")
+            self.showMessage(APP_NAME, f"SuperMemo export failed: {e}", QSystemTrayIcon.MessageIcon.Critical, 3000)
 
     def prevent_ghost_icon_on_win(self):
         if IS_WINDOWS:

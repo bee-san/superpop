@@ -95,8 +95,8 @@ def run_gui():
 
 def main():
     parser = argparse.ArgumentParser(
-        prog="meikipop",
-        description="Universal Japanese OCR popup dictionary"
+        prog="superpop",
+        description="Universal Japanese OCR popup dictionary with SuperMemo Q&A export"
     )
     subparsers = parser.add_subparsers(dest="command", help="Available commands")
 

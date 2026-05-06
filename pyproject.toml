@@ -3,13 +3,14 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "meikipop"
-version = "2.0.3"
-description = "Universal Japanese OCR popup dictionary"
+name = "superpop"
+version = "2.1.0"
+description = "Universal Japanese OCR popup dictionary with SuperMemo Q&A export"
 readme = "README.md"
 license = "GPL-3.0"
 authors = [
-    {name = "rtr46"}
+    {name = "rtr46"},
+    {name = "bee-san"}
 ]
 requires-python = ">=3.10"
 dependencies = [
@@ -33,6 +34,7 @@ dependencies = [
 
 [project.scripts]
 meikipop = "meikipop.main:main"
+superpop = "meikipop.main:main"
 
 [project.entry-points."meikipop.scripts"]
 build-dict = "meikipop.scripts.build_dictionary:main"

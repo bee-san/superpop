@@ -1,9 +1,9 @@
 [Desktop Entry]
-Name=Meikipop
-Comment=Japanese OCR Popup Dictionary
-Exec=meikipop
-Icon=com.github.rtr46.meikipop
+Name=Superpop
+Comment=Japanese OCR Popup Dictionary with SuperMemo export
+Exec=superpop
+Icon=com.github.beesan.superpop
 Terminal=false
 Type=Application
 Categories=Education;Languages;Utility;
-Keywords=Japanese;OCR;Dictionary;Popup;
+Keywords=Japanese;OCR;Dictionary;Popup;SuperMemo;SRS;

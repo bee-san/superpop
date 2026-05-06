@@ -30,7 +30,7 @@ jobs:
 
       - name: compress dictionary
         run: |
-          mv /home/runner/.local/share/meikipop/dictionary.pkl .
+          mv /home/runner/.local/share/superpop/dictionary.pkl .
           zip dictionary.zip dictionary.pkl
 
       - name: update dictionary-latest release
@@ -40,6 +40,6 @@ jobs:
           gh release delete dictionary-latest --yes --cleanup-tag || true
           gh release create dictionary-latest \
             --title "dictionary (latest)" \
-            --notes "most recent meikipop dictionary file" \
+            --notes "most recent superpop dictionary file" \
             --prerelease \
             dictionary.zip

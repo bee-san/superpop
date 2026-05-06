@@ -4,13 +4,14 @@ from PyQt6.QtGui import QColor, QIcon, QFontDatabase
 from PyQt6.QtWidgets import (QWidget, QDialog, QFormLayout, QComboBox,
                              QSpinBox, QCheckBox, QPushButton, QColorDialog, QVBoxLayout, QHBoxLayout,
                              QGroupBox, QDialogButtonBox, QLabel, QSlider, QDoubleSpinBox,
-                             QTabWidget, QSizePolicy, QFontComboBox)
+                             QTabWidget, QSizePolicy, QFontComboBox, QLineEdit, QFileDialog)
 
 from meikipop.dictionary.lookup import Lookup
 from meikipop.config.config import config, APP_NAME, IS_WINDOWS
 from meikipop.gui.input import InputLoop
 from meikipop.gui.popup import Popup
 from meikipop.ocr.ocr import OcrProcessor
+from meikipop.utils.paths import paths
 
 THEMES = {
     "Nazeka": {
@@ -171,6 +172,33 @@ class SettingsDialog(QDialog):
 
         behavior_group.setLayout(behavior_layout)
         self.tab_general_layout.addWidget(behavior_group)
+
+        # --- Group 4: SuperMemo ---
+        supermemo_group = QGroupBox("SuperMemo")
+        supermemo_layout = QFormLayout()
+        self.form_layouts.append(supermemo_layout)
+
+        self.supermemo_export_path_edit = QLineEdit()
+        self.supermemo_export_path_edit.setText(config.supermemo_export_path)
+        self.supermemo_export_path_edit.setPlaceholderText(paths.supermemo_qna_path)
+        self._set_expanding(self.supermemo_export_path_edit)
+
+        self.supermemo_browse_button = QPushButton("Browse")
+        self.supermemo_browse_button.clicked.connect(self.browse_supermemo_export_path)
+        supermemo_path_container = QWidget()
+        supermemo_path_layout = QHBoxLayout(supermemo_path_container)
+        supermemo_path_layout.setContentsMargins(0, 0, 0, 0)
+        supermemo_path_layout.addWidget(self.supermemo_export_path_edit)
+        supermemo_path_layout.addWidget(self.supermemo_browse_button)
+        supermemo_layout.addRow("Q&A Export Path:", supermemo_path_container)
+
+        self.supermemo_copy_check = QCheckBox()
+        self.supermemo_copy_check.setChecked(config.supermemo_copy_to_clipboard)
+        self.supermemo_copy_check.setToolTip("Copy the newest Q&A card to the clipboard after appending it to the export file.")
+        supermemo_layout.addRow("Copy Card to Clipboard:", self.supermemo_copy_check)
+
+        supermemo_group.setLayout(supermemo_layout)
+        self.tab_general_layout.addWidget(supermemo_group)
         self.tab_general_layout.addStretch()
 
         # ==========================================
@@ -413,6 +441,16 @@ class SettingsDialog(QDialog):
             self._update_color_buttons()
             self._mark_as_custom()
 
+    def browse_supermemo_export_path(self):
+        selected_path, _ = QFileDialog.getSaveFileName(
+            self,
+            "SuperMemo Q&A export file",
+            self.supermemo_export_path_edit.text().strip() or paths.supermemo_qna_path,
+            "Text files (*.txt);;All files (*)",
+        )
+        if selected_path:
+            self.supermemo_export_path_edit.setText(selected_path)
+
     def save_and_accept(self):
         # Update OCR Provider
         selected_provider = self.ocr_provider_combo.currentText()
@@ -427,6 +465,8 @@ class SettingsDialog(QDialog):
         config.auto_scan_interval_seconds = self.auto_scan_interval_spin.value()
         config.auto_scan_mode_lookups_without_hotkey = self.auto_scan_no_hotkey_check.isChecked()
         config.auto_scan_on_mouse_move = self.auto_scan_mouse_move_check.isChecked()
+        config.supermemo_export_path = self.supermemo_export_path_edit.text().strip()
+        config.supermemo_copy_to_clipboard = self.supermemo_copy_check.isChecked()
 
         if IS_WINDOWS:
             config.magpie_compatibility = self.magpie_check.isChecked()
